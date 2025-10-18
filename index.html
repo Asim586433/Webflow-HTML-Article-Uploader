@@ -12,6 +12,7 @@
             --light: #f8f9fa;
             --dark: #212529;
             --gray: #6c757d;
+            --danger: #e63946;
         }
         
         * {
@@ -36,10 +37,8 @@
         header {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
-            padding: 2rem 0;
-            border-radius: 0 0 10px 10px;
+            padding: 1rem 0;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            margin-bottom: 2rem;
         }
         
         .header-content {
@@ -67,16 +66,38 @@
             text-decoration: none;
             font-weight: 500;
             transition: opacity 0.3s;
+            display: flex;
+            align-items: center;
         }
         
-        nav ul li a:hover {
-            opacity: 0.8;
+        nav ul li a:hover, nav ul li a.active {
+            opacity: 0.9;
+            text-decoration: underline;
+        }
+        
+        nav ul li a i {
+            margin-right: 0.5rem;
+        }
+        
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
         
         .dashboard {
             display: grid;
             grid-template-columns: 1fr 3fr;
             gap: 2rem;
+            margin-top: 2rem;
         }
         
         .sidebar {
@@ -84,6 +105,7 @@
             border-radius: 10px;
             padding: 1.5rem;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            height: fit-content;
         }
         
         .sidebar h3 {
@@ -107,19 +129,13 @@
             display: flex;
             align-items: center;
             transition: color 0.3s;
+            padding: 0.5rem;
+            border-radius: 5px;
         }
         
-        .sidebar ul li a:hover {
+        .sidebar ul li a:hover, .sidebar ul li a.active {
             color: var(--primary);
-        }
-        
-        .sidebar ul li a.active {
-            color: var(--primary);
-            font-weight: 600;
-        }
-        
-        .sidebar ul li a i {
-            margin-right: 0.5rem;
+            background-color: #f0f4ff;
         }
         
         .main-content {
@@ -159,6 +175,41 @@
         
         .btn i {
             margin-right: 0.5rem;
+        }
+        
+        .btn-danger {
+            background-color: var(--danger);
+        }
+        
+        .btn-danger:hover {
+            background-color: #c1121f;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            border-left: 4px solid var(--primary);
+        }
+        
+        .stat-card h3 {
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-card .value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--secondary);
         }
         
         .upload-area {
@@ -208,16 +259,16 @@
             background-color: var(--secondary);
         }
         
-        .articles-list {
+        .articles-list, .automations-list, .team-list {
             margin-top: 2rem;
         }
         
-        .articles-list h3 {
+        .articles-list h3, .automations-list h3, .team-list h3 {
             margin-bottom: 1rem;
             color: var(--secondary);
         }
         
-        .article-item {
+        .article-item, .automation-item, .team-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -226,20 +277,20 @@
             transition: background-color 0.3s;
         }
         
-        .article-item:hover {
+        .article-item:hover, .automation-item:hover, .team-item:hover {
             background-color: #f9f9f9;
         }
         
-        .article-info h4 {
+        .article-info h4, .automation-info h4, .team-info h4 {
             margin-bottom: 0.5rem;
         }
         
-        .article-info p {
+        .article-info p, .automation-info p, .team-info p {
             color: var(--gray);
             font-size: 0.9rem;
         }
         
-        .article-actions {
+        .article-actions, .automation-actions, .team-actions {
             display: flex;
             gap: 0.5rem;
         }
@@ -280,6 +331,16 @@
             color: #3498db;
         }
         
+        .status.active {
+            background-color: #e7f7ef;
+            color: #2ecc71;
+        }
+        
+        .status.inactive {
+            background-color: #f8d7da;
+            color: #dc3545;
+        }
+        
         .modal {
             display: none;
             position: fixed;
@@ -300,6 +361,8 @@
             width: 90%;
             max-width: 500px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            max-height: 90vh;
+            overflow-y: auto;
         }
         
         .modal-header {
@@ -386,12 +449,51 @@
             transform: translateX(0);
         }
         
+        .chart-container {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .chart-placeholder {
+            height: 300px;
+            background: linear-gradient(135deg, #f0f4ff, #e3e9ff);
+            border-radius: 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--gray);
+            font-weight: 600;
+        }
+        
         footer {
             text-align: center;
             margin-top: 3rem;
             padding: 2rem 0;
             color: var(--gray);
             border-top: 1px solid #eee;
+        }
+        
+        .settings-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+        
+        .settings-section {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .settings-section h3 {
+            margin-bottom: 1.5rem;
+            color: var(--secondary);
+            border-bottom: 1px solid #eee;
+            padding-bottom: 0.5rem;
         }
         
         @media (max-width: 768px) {
@@ -407,6 +509,11 @@
             nav ul {
                 margin-top: 1rem;
                 justify-content: center;
+                flex-wrap: wrap;
+            }
+            
+            nav ul li {
+                margin: 0.5rem;
             }
             
             .content-header {
@@ -416,6 +523,10 @@
             
             .content-header .btn {
                 margin-top: 1rem;
+            }
+            
+            .settings-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -427,10 +538,12 @@
                 <div class="logo">Webflow Uploader</div>
                 <nav>
                     <ul>
-                        <li><a href="#" class="active">Dashboard</a></li>
-                        <li><a href="#">Articles</a></li>
-                        <li><a href="#">Automations</a></li>
-                        <li><a href="#">Settings</a></li>
+                        <li><a href="#" class="nav-link active" data-page="dashboard">📊 Dashboard</a></li>
+                        <li><a href="#" class="nav-link" data-page="articles">📝 Articles</a></li>
+                        <li><a href="#" class="nav-link" data-page="automations">⚙️ Automations</a></li>
+                        <li><a href="#" class="nav-link" data-page="analytics">📈 Analytics</a></li>
+                        <li><a href="#" class="nav-link" data-page="team">👥 Team</a></li>
+                        <li><a href="#" class="nav-link" data-page="settings">🔧 Settings</a></li>
                     </ul>
                 </nav>
             </div>
@@ -438,41 +551,106 @@
     </header>
     
     <div class="container">
-        <div class="dashboard">
-            <div class="sidebar">
-                <h3>Navigation</h3>
-                <ul>
-                    <li><a href="#" class="active"><i>📊</i> Dashboard</a></li>
-                    <li><a href="#"><i>📝</i> Articles</a></li>
-                    <li><a href="#"><i>⚙️</i> Automations</a></li>
-                    <li><a href="#"><i>📈</i> Analytics</a></li>
-                    <li><a href="#"><i>👥</i> Team</a></li>
-                    <li><a href="#"><i>🔧</i> Settings</a></li>
-                </ul>
+        <!-- Dashboard Page -->
+        <div id="dashboard" class="page active">
+            <div class="dashboard">
+                <div class="sidebar">
+                    <h3>Quick Actions</h3>
+                    <ul>
+                        <li><a href="#" id="uploadAction">📤 Upload Articles</a></li>
+                        <li><a href="#" id="createAutomationAction">⚙️ Create Automation</a></li>
+                        <li><a href="#" class="nav-link" data-page="analytics">📈 View Analytics</a></li>
+                        <li><a href="#" class="nav-link" data-page="team">👥 Manage Team</a></li>
+                    </ul>
+                    
+                    <h3 style="margin-top: 2rem;">Recent Activity</h3>
+                    <ul>
+                        <li><a href="#">"AI Trends 2023" published</a></li>
+                        <li><a href="#">"Web Design Principles" uploaded</a></li>
+                        <li><a href="#">Automation "Weekly Posts" activated</a></li>
+                        <li><a href="#">Team member Sarah added</a></li>
+                    </ul>
+                </div>
+                
+                <div class="main-content">
+                    <div class="content-header">
+                        <h2>Dashboard</h2>
+                        <button class="btn" id="newArticleBtn">
+                            <i>📝</i> New Article
+                        </button>
+                    </div>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <h3>Total Articles</h3>
+                            <div class="value">47</div>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Published</h3>
+                            <div class="value">32</div>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Drafts</h3>
+                            <div class="value">12</div>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Automations</h3>
+                            <div class="value">5</div>
+                        </div>
+                    </div>
+                    
+                    <div class="upload-area" id="uploadArea">
+                        <i>📁</i>
+                        <h3>Drag & Drop HTML Files Here</h3>
+                        <p>Upload your AI-generated HTML articles to publish to Webflow</p>
+                        <input type="file" id="fileInput" class="file-input" accept=".html,.htm" multiple>
+                        <label for="fileInput" class="file-label">Select Files</label>
+                    </div>
+                    
+                    <div class="articles-list">
+                        <h3>Recent Articles</h3>
+                        <div class="article-item">
+                            <div class="article-info">
+                                <h4>The Future of AI in Web Development</h4>
+                                <p>Uploaded: 2 hours ago | Size: 45 KB</p>
+                            </div>
+                            <div class="article-actions">
+                                <span class="status published">Published</span>
+                                <button class="action-btn" title="Edit">✏️</button>
+                                <button class="action-btn" title="Delete">🗑️</button>
+                            </div>
+                        </div>
+                        <div class="article-item">
+                            <div class="article-info">
+                                <h4>Building Responsive Websites with CSS Grid</h4>
+                                <p>Uploaded: 1 day ago | Size: 32 KB</p>
+                            </div>
+                            <div class="article-actions">
+                                <span class="status draft">Draft</span>
+                                <button class="action-btn" title="Edit">✏️</button>
+                                <button class="action-btn" title="Delete">🗑️</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            
+        </div>
+        
+        <!-- Articles Page -->
+        <div id="articles" class="page">
             <div class="main-content">
                 <div class="content-header">
-                    <h2>Upload HTML Articles</h2>
-                    <button class="btn" id="newAutomationBtn">
-                        <i>➕</i> New Automation
+                    <h2>Articles</h2>
+                    <button class="btn" id="uploadArticleBtn">
+                        <i>📤</i> Upload Articles
                     </button>
                 </div>
                 
-                <div class="upload-area" id="uploadArea">
-                    <i>📁</i>
-                    <h3>Drag & Drop HTML Files Here</h3>
-                    <p>Upload your AI-generated HTML articles to publish to Webflow</p>
-                    <input type="file" id="fileInput" class="file-input" accept=".html,.htm" multiple>
-                    <label for="fileInput" class="file-label">Select Files</label>
-                </div>
-                
                 <div class="articles-list">
-                    <h3>Recent Articles</h3>
                     <div class="article-item">
                         <div class="article-info">
                             <h4>The Future of AI in Web Development</h4>
-                            <p>Uploaded: 2 hours ago | Size: 45 KB</p>
+                            <p>Uploaded: 2 hours ago | Size: 45 KB | Category: Technology</p>
                         </div>
                         <div class="article-actions">
                             <span class="status published">Published</span>
@@ -483,7 +661,7 @@
                     <div class="article-item">
                         <div class="article-info">
                             <h4>Building Responsive Websites with CSS Grid</h4>
-                            <p>Uploaded: 1 day ago | Size: 32 KB</p>
+                            <p>Uploaded: 1 day ago | Size: 32 KB | Category: Web Design</p>
                         </div>
                         <div class="article-actions">
                             <span class="status draft">Draft</span>
@@ -494,13 +672,239 @@
                     <div class="article-item">
                         <div class="article-info">
                             <h4>Optimizing Web Performance in 2023</h4>
-                            <p>Uploaded: 3 days ago | Size: 58 KB</p>
+                            <p>Uploaded: 3 days ago | Size: 58 KB | Category: Performance</p>
                         </div>
                         <div class="article-actions">
                             <span class="status pending">Pending Review</span>
                             <button class="action-btn" title="Edit">✏️</button>
                             <button class="action-btn" title="Delete">🗑️</button>
                         </div>
+                    </div>
+                    <div class="article-item">
+                        <div class="article-info">
+                            <h4>Introduction to JavaScript Frameworks</h4>
+                            <p>Uploaded: 1 week ago | Size: 41 KB | Category: Programming</p>
+                        </div>
+                        <div class="article-actions">
+                            <span class="status published">Published</span>
+                            <button class="action-btn" title="Edit">✏️</button>
+                            <button class="action-btn" title="Delete">🗑️</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Automations Page -->
+        <div id="automations" class="page">
+            <div class="main-content">
+                <div class="content-header">
+                    <h2>Automations</h2>
+                    <button class="btn" id="newAutomationBtn">
+                        <i>➕</i> New Automation
+                    </button>
+                </div>
+                
+                <div class="automations-list">
+                    <div class="automation-item">
+                        <div class="automation-info">
+                            <h4>Weekly Blog Posts</h4>
+                            <p>Trigger: Every Monday at 9 AM | Action: Publish to Webflow</p>
+                        </div>
+                        <div class="automation-actions">
+                            <span class="status active">Active</span>
+                            <button class="action-btn" title="Edit">✏️</button>
+                            <button class="action-btn" title="Delete">🗑️</button>
+                        </div>
+                    </div>
+                    <div class="automation-item">
+                        <div class="automation-info">
+                            <h4>Daily Social Media</h4>
+                            <p>Trigger: New article published | Action: Post to Twitter & LinkedIn</p>
+                        </div>
+                        <div class="automation-actions">
+                            <span class="status active">Active</span>
+                            <button class="action-btn" title="Edit">✏️</button>
+                            <button class="action-btn" title="Delete">🗑️</button>
+                        </div>
+                    </div>
+                    <div class="automation-item">
+                        <div class="automation-info">
+                            <h4>Monthly Newsletter</h4>
+                            <p>Trigger: 1st of each month | Action: Send email to subscribers</p>
+                        </div>
+                        <div class="automation-actions">
+                            <span class="status inactive">Inactive</span>
+                            <button class="action-btn" title="Edit">✏️</button>
+                            <button class="action-btn" title="Delete">🗑️</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Analytics Page -->
+        <div id="analytics" class="page">
+            <div class="main-content">
+                <div class="content-header">
+                    <h2>Analytics</h2>
+                    <div>
+                        <button class="btn">
+                            <i>📥</i> Export Data
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>Total Views</h3>
+                        <div class="value">12,458</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Engagement Rate</h3>
+                        <div class="value">4.7%</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Avg. Read Time</h3>
+                        <div class="value">3.2 min</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Top Category</h3>
+                        <div class="value">Technology</div>
+                    </div>
+                </div>
+                
+                <div class="chart-container">
+                    <h3>Article Performance</h3>
+                    <div class="chart-placeholder">
+                        Article Views Chart Visualization
+                    </div>
+                </div>
+                
+                <div class="chart-container">
+                    <h3>Traffic Sources</h3>
+                    <div class="chart-placeholder">
+                        Traffic Sources Pie Chart
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Team Page -->
+        <div id="team" class="page">
+            <div class="main-content">
+                <div class="content-header">
+                    <h2>Team Members</h2>
+                    <button class="btn" id="addMemberBtn">
+                        <i>👥</i> Add Member
+                    </button>
+                </div>
+                
+                <div class="team-list">
+                    <div class="team-item">
+                        <div class="team-info">
+                            <h4>Sarah Johnson</h4>
+                            <p>Content Manager | sarah@example.com</p>
+                        </div>
+                        <div class="team-actions">
+                            <span class="status active">Active</span>
+                            <button class="action-btn" title="Edit">✏️</button>
+                            <button class="action-btn" title="Delete">🗑️</button>
+                        </div>
+                    </div>
+                    <div class="team-item">
+                        <div class="team-info">
+                            <h4>Michael Chen</h4>
+                            <p>Developer | michael@example.com</p>
+                        </div>
+                        <div class="team-actions">
+                            <span class="status active">Active</span>
+                            <button class="action-btn" title="Edit">✏️</button>
+                            <button class="action-btn" title="Delete">🗑️</button>
+                        </div>
+                    </div>
+                    <div class="team-item">
+                        <div class="team-info">
+                            <h4>Emily Rodriguez</h4>
+                            <p>Editor | emily@example.com</p>
+                        </div>
+                        <div class="team-actions">
+                            <span class="status active">Active</span>
+                            <button class="action-btn" title="Edit">✏️</button>
+                            <button class="action-btn" title="Delete">🗑️</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Settings Page -->
+        <div id="settings" class="page">
+            <div class="main-content">
+                <div class="content-header">
+                    <h2>Settings</h2>
+                </div>
+                
+                <div class="settings-grid">
+                    <div class="settings-section">
+                        <h3>Webflow Integration</h3>
+                        <div class="form-group">
+                            <label for="apiKey">API Key</label>
+                            <input type="password" id="apiKey" class="form-control" value="wfl_5f8d3a2b1c9e7">
+                        </div>
+                        <div class="form-group">
+                            <label for="siteId">Site ID</label>
+                            <input type="text" id="siteId" class="form-control" value="5f8d3a2b1c9e7">
+                        </div>
+                        <button class="btn">Save Changes</button>
+                    </div>
+                    
+                    <div class="settings-section">
+                        <h3>Automation Settings</h3>
+                        <div class="form-group">
+                            <label for="defaultStatus">Default Article Status</label>
+                            <select id="defaultStatus" class="form-control">
+                                <option value="draft">Draft</option>
+                                <option value="published" selected>Published</option>
+                                <option value="pending">Pending Review</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="autoPublish">Auto-publish after</label>
+                            <select id="autoPublish" class="form-control">
+                                <option value="0" selected>Manual approval</option>
+                                <option value="1">1 hour</option>
+                                <option value="24">24 hours</option>
+                                <option value="48">48 hours</option>
+                            </select>
+                        </div>
+                        <button class="btn">Save Changes</button>
+                    </div>
+                    
+                    <div class="settings-section">
+                        <h3>Notification Preferences</h3>
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" checked> Email notifications for new articles
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" checked> Slack notifications for automation errors
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox"> Weekly performance reports
+                            </label>
+                        </div>
+                        <button class="btn">Save Preferences</button>
+                    </div>
+                    
+                    <div class="settings-section">
+                        <h3>Danger Zone</h3>
+                        <p>Once you delete your account, there is no going back. Please be certain.</p>
+                        <button class="btn btn-danger" style="margin-top: 1rem;">Delete Account</button>
                     </div>
                 </div>
             </div>
@@ -553,6 +957,34 @@
         </div>
     </div>
     
+    <!-- Add Team Member Modal -->
+    <div class="modal" id="teamModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add Team Member</h3>
+                <button class="close-btn" id="closeTeamModalBtn">&times;</button>
+            </div>
+            <div class="form-group">
+                <label for="memberName">Full Name</label>
+                <input type="text" id="memberName" class="form-control" placeholder="Enter full name">
+            </div>
+            <div class="form-group">
+                <label for="memberEmail">Email</label>
+                <input type="email" id="memberEmail" class="form-control" placeholder="Enter email address">
+            </div>
+            <div class="form-group">
+                <label for="memberRole">Role</label>
+                <select id="memberRole" class="form-control">
+                    <option value="editor">Editor</option>
+                    <option value="developer">Developer</option>
+                    <option value="manager">Content Manager</option>
+                    <option value="admin">Administrator</option>
+                </select>
+            </div>
+            <button class="btn" id="saveMemberBtn" style="width: 100%;">Add Team Member</button>
+        </div>
+    </div>
+    
     <!-- Notification -->
     <div class="notification" id="notification"></div>
     
@@ -564,24 +996,72 @@
 
     <script>
         // DOM Elements
+        const pages = document.querySelectorAll('.page');
+        const navLinks = document.querySelectorAll('.nav-link');
         const uploadArea = document.getElementById('uploadArea');
         const fileInput = document.getElementById('fileInput');
         const automationModal = document.getElementById('automationModal');
         const progressModal = document.getElementById('progressModal');
+        const teamModal = document.getElementById('teamModal');
         const newAutomationBtn = document.getElementById('newAutomationBtn');
+        const uploadArticleBtn = document.getElementById('uploadArticleBtn');
+        const addMemberBtn = document.getElementById('addMemberBtn');
         const closeModalBtn = document.getElementById('closeModalBtn');
+        const closeTeamModalBtn = document.getElementById('closeTeamModalBtn');
         const saveAutomationBtn = document.getElementById('saveAutomationBtn');
+        const saveMemberBtn = document.getElementById('saveMemberBtn');
         const uploadProgress = document.getElementById('uploadProgress');
         const uploadStatus = document.getElementById('uploadStatus');
         const notification = document.getElementById('notification');
+        const uploadAction = document.getElementById('uploadAction');
+        const createAutomationAction = document.getElementById('createAutomationAction');
         
-        // Event Listeners
+        // Navigation
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetPage = link.getAttribute('data-page');
+                
+                // Update active nav link
+                navLinks.forEach(nav => nav.classList.remove('active'));
+                link.classList.add('active');
+                
+                // Show target page
+                pages.forEach(page => page.classList.remove('active'));
+                document.getElementById(targetPage).classList.add('active');
+            });
+        });
+        
+        // Quick Actions
+        uploadAction.addEventListener('click', (e) => {
+            e.preventDefault();
+            fileInput.click();
+        });
+        
+        createAutomationAction.addEventListener('click', (e) => {
+            e.preventDefault();
+            automationModal.style.display = 'flex';
+        });
+        
+        // Modal Controls
         newAutomationBtn.addEventListener('click', () => {
             automationModal.style.display = 'flex';
         });
         
+        uploadArticleBtn.addEventListener('click', () => {
+            fileInput.click();
+        });
+        
+        addMemberBtn.addEventListener('click', () => {
+            teamModal.style.display = 'flex';
+        });
+        
         closeModalBtn.addEventListener('click', () => {
             automationModal.style.display = 'none';
+        });
+        
+        closeTeamModalBtn.addEventListener('click', () => {
+            teamModal.style.display = 'none';
         });
         
         saveAutomationBtn.addEventListener('click', () => {
@@ -601,6 +1081,25 @@
             document.getElementById('automationName').value = '';
             document.getElementById('triggerSelect').value = '';
             document.getElementById('actionSelect').value = '';
+        });
+        
+        saveMemberBtn.addEventListener('click', () => {
+            const memberName = document.getElementById('memberName').value;
+            const memberEmail = document.getElementById('memberEmail').value;
+            const memberRole = document.getElementById('memberRole').value;
+            
+            if (!memberName || !memberEmail) {
+                showNotification('Please fill in all fields', 'error');
+                return;
+            }
+            
+            teamModal.style.display = 'none';
+            showNotification(`Team member "${memberName}" added successfully!`, 'success');
+            
+            // Reset form
+            document.getElementById('memberName').value = '';
+            document.getElementById('memberEmail').value = '';
+            document.getElementById('memberRole').value = 'editor';
         });
         
         // File upload functionality
@@ -683,33 +1182,38 @@
             if (e.target === automationModal) {
                 automationModal.style.display = 'none';
             }
+            if (e.target === teamModal) {
+                teamModal.style.display = 'none';
+            }
             if (e.target === progressModal) {
                 // Don't close progress modal by clicking outside
             }
         });
         
-        // Add event listeners to article action buttons
+        // Add event listeners to action buttons
         document.querySelectorAll('.action-btn').forEach(button => {
             button.addEventListener('click', function() {
-                const articleTitle = this.closest('.article-item').querySelector('h4').textContent;
+                const item = this.closest('.article-item, .automation-item, .team-item');
+                const title = item.querySelector('h4').textContent;
                 
                 if (this.textContent === '🗑️') {
-                    if (confirm(`Are you sure you want to delete "${articleTitle}"?`)) {
-                        this.closest('.article-item').style.opacity = '0.5';
+                    if (confirm(`Are you sure you want to delete "${title}"?`)) {
+                        item.style.opacity = '0.5';
                         setTimeout(() => {
-                            this.closest('.article-item').remove();
-                            showNotification(`"${articleTitle}" has been deleted`, 'success');
+                            item.remove();
+                            showNotification(`"${title}" has been deleted`, 'success');
                         }, 500);
                     }
                 } else if (this.textContent === '✏️') {
-                    showNotification(`Editing "${articleTitle}"`, 'success');
+                    showNotification(`Editing "${title}"`, 'success');
                 }
             });
         });
         
-        // Test all interactive elements on page load
+        // Initialize the application
         window.addEventListener('load', () => {
-            console.log('All components loaded and functional');
+            console.log('Webflow HTML Article Uploader fully loaded and functional');
+            showNotification('Welcome to Webflow HTML Article Uploader!', 'success');
         });
     </script>
 </body>
